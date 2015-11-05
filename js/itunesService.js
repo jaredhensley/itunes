@@ -19,7 +19,20 @@ app.service('itunesService', function ($http, $q) {
 		}).then(function (response) {
 			console.log(response.data.results);
 			var slimResults = response.data.results;
-			deferred.resolve(slimResults);
+			var newResults = [];
+			slimResults.forEach(function (val, index) {
+				newResults.push({
+					AlbumArt: val.artworkUrl60,
+					Artist: val.artistName,
+					SongName: val.trackName,
+					Collection: val.collectionName,
+					CollectionPrice: val.collectionPrice,
+					Play: val.previewUrl,
+					Type: val.kind,
+					Explicit: val.trackExplicitness
+				});
+			});
+			deferred.resolve(newResults);
 		});
 		return deferred.promise;
 	}

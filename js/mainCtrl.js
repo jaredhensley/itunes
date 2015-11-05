@@ -4,11 +4,18 @@ app.controller('mainCtrl', function ($scope, itunesService) {
 	//This is setting up the default behavior of our ng-grid. The important thing to note is
 	//the 'data' property. The value is 'songData'. That means ng-grid is looking for songData on $scope and is putting whatever songData is into the grid.
 	//this means when you make your iTunes request, you'll need to get back the information, parse it accordingly, then set it to songData on the scope -> $scope.songData = ...
+
+	$scope.filterOptions = {
+		filterText: ''
+	};
+
+
 	$scope.gridOptions = {
 		data: 'songData',
 		height: '110px',
+		filterOptions: $scope.filterOptions,
 		sortInfo: {
-			fields: ['Song', 'Artist', 'Collection', 'Type'],
+			fields: ['Song', 'Artist', 'Collection', 'Type', 'Explicit'],
 			directions: ['asc']
 		},
 		columnDefs: [
@@ -21,6 +28,10 @@ app.controller('mainCtrl', function ($scope, itunesService) {
 			{
 				field: 'Artist',
 				displayName: 'Artist'
+			},
+			{
+				field: 'SongName',
+				displayName: 'Song'
 			},
 			{
 				field: 'Collection',
@@ -40,6 +51,11 @@ app.controller('mainCtrl', function ($scope, itunesService) {
 				field: 'CollectionPrice',
 				displayName: 'Collection Price'
 			},
+			{
+				field: 'Explicit',
+				displayName: 'Content'
+			},
+
       ]
 	};
 
@@ -56,27 +72,12 @@ app.controller('mainCtrl', function ($scope, itunesService) {
 
 	//Code here
 
-
-
 	$scope.getSongData = function (artist) {
 		itunesService.getArtistInfo(artist).then(function (response) {
 			console.log(response);
-			var newResults = [];
-			response.forEach(function (val, index) {
-				console.log(val);
-				newResults.push({
-					AlbumArt: val.artworkUrl60,
-					Artist: val.artistName,
-					Collection: val.collectionName,
-					CollectionPrice: val.collectionPrice,
-					Play: val.previewUrl,
-					Type: val.kind
-				});
-			});
-			$scope.songData = newResults;
+			$scope.songData = response;
 		});
 	};
-
 
 	//Check that the above method is working by entering a name into the input field on your web app, and then console.log the result
 
