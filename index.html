@@ -19,6 +19,11 @@
 					<div class="form-group">
 						<input type="text" class="form-control" ng-model="artist" placeholder="Artist Name">
 						<button class="btn btn-primary" ng-click="getSongData(artist)"> Submit </button>
+						<select ng-model="sourceNameSelected" ng-options="thing.sourceName for thing in stuff" ng-change="filterOptions.filterText = sourceNameSelected.sourceName">
+							<option value="" selected>
+								-- Select Source --
+							</option>
+						</select>
 						<input type="text" class="form-control form2" ng-model="filterOptions.filterText" placeholder="filter results">
 					</div>
 				</form>

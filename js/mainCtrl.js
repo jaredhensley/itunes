@@ -9,6 +9,13 @@ app.controller('mainCtrl', function ($scope, itunesService) {
 		filterText: ''
 	};
 
+	$scope.stuff = {
+		sourceName: 'MOVIES',
+		sourceName: 'SONG',
+		sourceName: 'TV'
+	};
+
+	$scope.sourceNameSelected = '';
 
 	$scope.gridOptions = {
 		data: 'songData',
